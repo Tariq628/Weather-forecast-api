@@ -15,8 +15,9 @@ def mater(request):
     )
     params = a.text.split()
     print(params)
-    if cache.get("my_key"):
-        return JsonResponse(cache.get("my_key"))
+    if cache.get(params[2]):
+        print("Returning from cache")
+        return JsonResponse(cache.get(params[2]))
     my_json = {
         "station": params[2],
         "last_observation": f"{params[0]} at {params[1]} GMT",
@@ -25,8 +26,9 @@ def mater(request):
     }
 
     # Saving data in cache for 5 mints
-    cache.set('my_key', my_json, 300)
+    cache.set(params[2], my_json, 300)
 
+    print("Returning from database")
     return JsonResponse(my_json)
 
 
